@@ -1,0 +1,15 @@
+2.71
+A. This code doesn't handle negative outputs. Since the 3 extra bytes to the left after the & 0xff are padded with zeros, Every output will be positive (since the most significant byte is always a zero)
+B. int xByte (unsigned int word, int bytnum)
+{
+    int output = word << ((3 - bytnum) << 3);
+    return output >> 24;
+}
+By emphasizing to the left first and then shifting everything to the right arithmetically, we sign extend the binary number successfully and preserve its sign.
+
+2.82
+A. The expression (x<y) == (-x>-y) will not always yield 1. When x = Tmin, -x = Tmin. This means for any y != Tmin, the expression returns 0.
+B. The expression ((x+y)<<4)+ y-x == 17*y+15*x will always return true. While shifting left 4 times may result in the loss of some bits, multiplying by 17 and 15 respectively would yield the same result in the loss of the most significant bits (where applicable). 
+C. The expression ~x+~y+1 == ~(x+y) always returns true because the not of x + y is the same as not x + not y + 1 where the extra plus 1 takes care of the least significant bit overflow that happens with ~(x+y).
+D. The expression (ux-uy) == - (unsigned)(y-x) always returns 1 because at the bit level, signed and cast unsigned numbers are the same bit patterns, so (x - y) is the same thing as -(y - x).
+E. The expression ((x>>2)<<2) <= x returns true for any x and y because if the two least significant bits are zero, the shift will not affect it at all because the zero will be padded back when shifted left. If there are any 1s in the two least significant bit positions, they will be lost in the right shift and padded with zeros in the left shift. This will cause the result to be less than its original value.
